@@ -1,106 +1,70 @@
 import 'package:flutter/material.dart';
-
+import 'quote.dart';
 void main() => runApp(MaterialApp(
-  home: Home()
+  home: QuoteList(),
 ));
 
+class QuoteList extends StatefulWidget {
+  const QuoteList({Key? key}) : super(key: key);
 
-class Home extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _QuoteListState createState() => _QuoteListState();
 }
 
-class _HomeState extends State<Home> {
-
-  int ninjaLevel=0;
-
+class _QuoteListState extends State<QuoteList> {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('Hello, Manucians'),
-        centerTitle: true,
-        backgroundColor: Colors.red[800],
-        elevation: 0.0,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          setState(() {
-            ninjaLevel += 1;
-          });
-        },
-        child: Icon(Icons.add),
-        backgroundColor: Colors.grey[800],
-      ),
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
+  List<Quote> quotes = [
+    Quote(author: 'Harvey', text: 'I don''t have dreams, I have goals'),
+    Quote(author: 'Akshay', text: 'Do what you love and not what you told too.')
+  ];
+
+  Widget quoteTemplate(quote){
+    return Card(
+      margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Center(
-              child: CircleAvatar(
-                backgroundImage: AssetImage('assets/OT-1.jpg'),
-                radius: 40.0,
+            Text(
+              quote.text,
+              style: TextStyle(
+                fontSize: 18.0,
+                color: Colors.grey[600],
               ),
             ),
-            Divider(
-              height: 90.0,
-              color: Colors.grey[800],
-            ),
+            SizedBox(height: 6.0),
             Text(
-             'NAME',
+              quote.author,
               style: TextStyle(
-                color: Colors.grey,
-                letterSpacing: 2.0,
-              )
+                fontSize: 18.0,
+                color: Colors.grey[800],
+              ),
             ),
-            Text(
-                'Chun-Li',
-                style: TextStyle(
-                  color: Colors.amberAccent[200],
-                  letterSpacing: 2.0,
-                  fontSize: 28.0,
-                  fontWeight: FontWeight.bold,
-                )
-            ),
-            SizedBox(height: 30.0),
-            Text(
-              'Current NINJA LEVEL',
-              style: TextStyle(
-                color: Colors.grey,
-                letterSpacing: 2.0,
-              )
-            ),
-            Text(
-              '$ninjaLevel',
-              style: TextStyle(
-                color: Colors.amberAccent[200],
-                letterSpacing: 2.0,
-                fontSize: 28.0,
-                fontWeight: FontWeight.bold,
-              )
-            ),
-            SizedBox(height: 30.0),
-            Row(
-              children: <Widget>[
-                Icon(
-                  Icons.email,
-                  color: Colors.grey[400],
-                ),
-                Text(
-                  'chun.li@theninja.co.in',
-                  style:TextStyle(
-                    color: Colors.grey[400],
-                    fontSize: 18.0,
-                    letterSpacing: 1.0,
-                  ),
-                ),
-              ],
+            SizedBox(height: 8.0),
+            FlatButton.icon(
+              onPressed: () {},
+              label: Text('delete quote'),
+              icon: Icon(Icons.delete),
             ),
           ],
         ),
       ),
     );
   }
+
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[200],
+      appBar: AppBar(
+        title: Text('Awesome Quotes'),
+        centerTitle: true,
+        backgroundColor: Colors.redAccent,
+      ),
+      body: Column(
+        children: quotes.map((quote) =>quoteTemplate(quote)).toList(),
+      ),
+    );
+  }
 }
+
